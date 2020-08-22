@@ -1,74 +1,66 @@
 import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
  */
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
-    int k;
-    int count;
-    Resume l;
+    int arraySize;
 
     void clear() {
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < arraySize; i++) {
             storage[i] = null;
         }
         System.out.println("Массив очищен");
-        k = 0;
+        arraySize = 0;
     }
 
     void save(Resume r) {
         if (r.uuid == null) {
             System.out.println("Вы не ввели значение. Повторите попытку");
         } else {
-            storage[k] = r;
-            System.out.println(storage[k] + " добавлен(а) в массив");
-            k++;
+            storage[arraySize] = r;
+            System.out.println(storage[arraySize] + " добавлен(а) в массив");
+            arraySize++;
         }
     }
 
     Resume get(String uuid) {
-        for (int i = 0; i < k; i++) {
+        Resume resume = null;
+        for (int i = 0; i < arraySize; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                l = storage[i];
-                count++;
+                resume = storage[i];
                 break;
             }
         }
-        if (count == 0) {
-            l = new Resume();
-            l.uuid = "Такого резюме нет в массиве";
-        }
-        count = 0;
-        return l;
+        return resume;
     }
 
     void delete(String uuid) {
-        for (int i = 0; i < k; i++) {
+        int foundResumes = 0;
+        for (int i = 0; i < arraySize; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                for (int j = i; j < k - 1; j++) {
+                for (int j = i; j < arraySize - 1; j++) {
                     storage[j] = storage[j + 1];
                 }
-                k--;
-                count++;
+                arraySize--;
+                foundResumes++;
                 System.out.println(uuid + " удален(а)");
                 break;
             }
         }
-        if (count == 0) {
+        if (foundResumes == 0) {
             System.out.println("Такого резюме нет в массиве");
         }
-        count = 0;
     }
 
     /**
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, k);
+        return Arrays.copyOfRange(storage, 0, arraySize);
     }
 
     int size() {
-        return k;
+        return arraySize;
     }
 }
