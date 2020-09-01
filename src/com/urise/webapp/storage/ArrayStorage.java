@@ -18,33 +18,49 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        saveUpdate(resume);
+        if (getIndex(resume.getUuid()) >= 0) {
+            storage[getIndex(resume.getUuid())] = resume;
+            System.out.println("Резюме " + resume.getUuid() + " обновлено");
+        } else {
+            System.out.println("Резюме " + resume.getUuid() + " не найдено");
+        }
     }
 
     public void save(Resume resume) {
-        saveUpdate(resume);
+        if (getIndex(resume.getUuid()) >= 0) {
+            System.out.println("Резюме " + resume.getUuid() + " уже есть в массиве");
+            return;
+        }
+        if (size == storage.length) {
+            System.out.println("Нет свободного места");
+            return;
+        }
+        if (resume.getUuid() == null) {
+            System.out.println("Вы не ввели значение. Повторите попытку");
+        } else {
+            storage[size] = resume;
+            System.out.println(storage[size] + " добавлен(а) в массив");
+            size++;
+        }
     }
 
     public Resume get(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
-            }
+        if (getIndex(uuid) >= 0) {
+            return storage[getIndex(uuid)];
+        } else {
+            return null;
         }
-        return null;
     }
 
     public void delete(String uuid) {
-        for (int i = 0; i < size; i++) {
-            if (storage[i].getUuid().equals(uuid)) {
-                storage[i] = storage[size - 1];
-                storage[size - 1] = null;
-                size--;
-                System.out.println("Резюме " + uuid + " удален(а)");
-                return;
-            }
+        if (getIndex(uuid) >= 0) {
+            storage[getIndex(uuid)] = storage[size - 1];
+            storage[size - 1] = null;
+            size--;
+            System.out.println("Резюме " + uuid + " удален(а)");
+        } else {
+            System.out.println("Резюме " + uuid + " нет в массиве");
         }
-        System.out.println("Резюме " + uuid + " нет в массиве");
     }
 
     /**
@@ -58,34 +74,12 @@ public class ArrayStorage {
         return size;
     }
 
-    public void saveUpdate(Resume resume) {
-        StackTraceElement[] element = Thread.currentThread().getStackTrace();
+    public int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {
-            if (resume.equals(storage[i])) {
-                if (element[element.length - 2].getMethodName().equals("save")) {
-                    System.out.println("Резюме " + resume.getUuid() + " уже есть в массиве");
-                    return;
-                } else {
-                    storage[i] = resume;
-                    System.out.println("Резюме " + resume.getUuid() + " обновлено");
-                    return;
-                }
+            if (storage[i].getUuid().equals(uuid)) {
+                return i;
             }
         }
-        if (element[element.length - 2].getMethodName().equals("save")) {
-            if (size == storage.length) {
-                System.out.println("Нет свободного места");
-                return;
-            }
-            if (resume.getUuid() == null) {
-                System.out.println("Вы не ввели значение. Повторите попытку");
-            } else {
-                storage[size] = resume;
-                System.out.println("Резюме " + storage[size] + " добавлен(а) в массив");
-                size++;
-            }
-        } else {
-            System.out.println("Резюме " + resume.getUuid() + " не найдено");
-        }
+        return -1;
     }
 }

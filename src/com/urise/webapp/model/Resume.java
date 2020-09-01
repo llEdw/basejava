@@ -20,8 +20,4 @@ public class Resume {
     public String toString() {
         return uuid;
     }
-
-    public boolean equals(Resume r) {
-        return this.uuid.equals(r.uuid);
-    }
 }
