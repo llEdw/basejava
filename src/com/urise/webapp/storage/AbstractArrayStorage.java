@@ -1,0 +1,52 @@
+package com.urise.webapp.storage;
+
+import com.urise.webapp.model.Resume;
+
+import java.util.Arrays;
+
+public abstract class AbstractArrayStorage implements Storage {
+    protected static final int STORAGE_LIMIT = 10000;
+    protected Resume[] storage = new Resume[STORAGE_LIMIT];
+    protected int size = 0;
+
+    public void clear() {
+        Arrays.fill(storage, 0, size, null);
+        System.out.println("Массив очищен, удалено " + size + " элементов");
+        size = 0;
+    }
+
+    public abstract void save(Resume resume);
+
+    public void update(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
+            storage[index] = resume;
+            System.out.println("Резюме " + resume.getUuid() + " обновлено");
+        } else {
+            System.out.println("Резюме " + resume.getUuid() + " не найдено");
+        }
+    }
+
+    public abstract void delete(String uuid);
+
+    public Resume[] getAll() {
+        return Arrays.copyOf(storage, size);
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public Resume get(String uuid) {
+        int index = getIndex(uuid);
+        if (index >= 0) {
+            System.out.println("Найдено резюме ");
+            return storage[index];
+        } else {
+            System.out.println("Резюме " + uuid + " не найдено ");
+            return null;
+        }
+    }
+
+    protected abstract int getIndex(String uuid);
+}
