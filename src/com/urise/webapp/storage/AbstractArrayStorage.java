@@ -42,6 +42,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex((uuid));
         if (index >= 0) {
             deleteElement(index);
+            storage[size - 1] = null;
             size--;
             System.out.println("Резюме " + uuid + " удален(а)");
         } else {
@@ -62,10 +63,9 @@ public abstract class AbstractArrayStorage implements Storage {
         if (index >= 0) {
             System.out.println("Найдено резюме ");
             return storage[index];
-        } else {
-            System.out.println("Резюме " + uuid + " не найдено ");
-            return null;
         }
+        System.out.println("Резюме " + uuid + " не найдено ");
+        return null;
     }
 
     protected abstract void deleteElement(int index);
