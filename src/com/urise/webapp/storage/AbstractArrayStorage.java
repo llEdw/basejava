@@ -1,11 +1,14 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.exception.ExistStorageException;
+import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
 public abstract class AbstractArrayStorage implements Storage {
-    protected static final int STORAGE_LIMIT = 10000;
+    protected static final int STORAGE_LIMIT = 10;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
@@ -21,16 +24,16 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[index] = resume;
             System.out.println("Резюме " + resume.getUuid() + " обновлено");
         } else {
-            System.out.println("Резюме " + resume.getUuid() + " не найдено");
+            throw new NotExistStorageException(resume.getUuid());
         }
     }
 
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
-            System.out.println("Резюме " + resume.getUuid() + " уже есть в массиве");
+            throw new ExistStorageException(resume.getUuid());
         } else if (size >= STORAGE_LIMIT) {
-            System.out.println("Нет свободного места");
+            throw new StorageException("Нет свободного места", resume.getUuid());
         } else {
             saveElement(index, resume);
             System.out.println(resume.getUuid() + " добавлен(а) в массив");
@@ -46,7 +49,7 @@ public abstract class AbstractArrayStorage implements Storage {
             size--;
             System.out.println("Резюме " + uuid + " удален(а)");
         } else {
-            System.out.println("Резюме " + uuid + " нет в массиве");
+            throw new NotExistStorageException(uuid);
         }
     }
 
@@ -64,8 +67,7 @@ public abstract class AbstractArrayStorage implements Storage {
             System.out.println("Найдено резюме ");
             return storage[index];
         }
-        System.out.println("Резюме " + uuid + " не найдено ");
-        return null;
+        throw new NotExistStorageException(uuid);
     }
 
     protected abstract void deleteElement(int index);
