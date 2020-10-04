@@ -2,71 +2,59 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
+import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 public abstract class AbstractStorage implements Storage {
-    private final ArrayList<Resume> LIST = new ArrayList<>();
-
-    @Override
-    public void clear() {
-        LIST.clear();
-        System.out.println("Список очищен, удалено " + LIST.size() + " элементов");
-    }
-
-    @Override
     public void update(Resume resume) {
-        if (LIST.contains(resume)) {
-            LIST.set(LIST.indexOf(resume), resume);
+        int index = getIndex(resume, resume.getUuid());
+        if (index >= 0) {
+            updateElement(index, resume);
             System.out.println("Резюме " + resume.getUuid() + " обновлено");
         } else {
             throw new NotExistStorageException(resume.getUuid());
         }
     }
 
-    @Override
+    protected abstract void updateElement(int index, Resume resume);
+
     public void save(Resume resume) {
-        if (LIST.contains(resume)) {
+        int index = getIndex(resume, resume.getUuid());
+        if (index >= 0) {
             throw new ExistStorageException(resume.getUuid());
+        } else if (checkLimit()) {
+            throw new StorageException("Нет свободного места", resume.getUuid());
         } else {
-            LIST.add(resume);
-            System.out.println(resume.getUuid() + " добавлен в список");
+            saveElement(index, resume);
         }
     }
 
-    @Override
-    public void delete(String uuid) {
-        Iterator<Resume> iterator = LIST.iterator();
-        while (iterator.hasNext()) {
-            Resume element = iterator.next();
-            if (element.getUuid().equals(uuid)) {
-                iterator.remove();
-                System.out.println("Резюме " + uuid + " удален(а)");
-                return;
-            }
+    protected abstract boolean checkLimit();
+
+    protected abstract void saveElement(int index, Resume resume);
+
+    public void delete(Resume resume, String uuid) {
+        int index = getIndex(resume, uuid);
+        if (index >= 0) {
+            deleteElement(uuid, index);
+            System.out.println("Резюме " + uuid + " удален(а)");
+        } else {
+            throw new NotExistStorageException(uuid);
         }
-        throw new NotExistStorageException(uuid);
     }
 
-    @Override
-    public int size() {
-        return LIST.size();
-    }
+    protected abstract void deleteElement(String uuid, int index);
 
-    @Override
-    public Resume get(String uuid) {
-        for (int i = 0; i < LIST.size(); i++) {
-            if (LIST.get(i).getUuid().equals(uuid)) {
-                System.out.println("Найдено резюме ");
-                return LIST.get(i);
-            }
+    public Resume get(Resume resume, String uuid) {
+        int index = getIndex(resume, uuid);
+        if (index >= 0) {
+            System.out.println("Найдено резюме ");
+            return getElement(index);
         }
         throw new NotExistStorageException(uuid);
     }
 
-    public Resume[] getAll() {
-        return LIST.toArray(new Resume[LIST.size()]);
-    }
+    protected abstract Resume getElement(int index);
+
+    protected abstract int getIndex(Resume resume, String uuid);
 }
