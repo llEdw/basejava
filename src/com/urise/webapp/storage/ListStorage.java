@@ -3,58 +3,51 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ListStorage extends AbstractStorage {
-    private final ArrayList<Resume> LIST = new ArrayList<>();
+    private ArrayList<Resume> list = new ArrayList<>();
 
     public void clear() {
-        System.out.println("Список очищен, удалено " + LIST.size() + " элементов");
-        LIST.clear();
+        System.out.println("Список очищен, удалено " + list.size() + " элементов");
+        list.clear();
     }
 
     @Override
     protected void updateElement(int index, Resume resume) {
-        LIST.set(index, resume);
+        list.set(index, resume);
     }
 
     @Override
-    protected int getIndex(Resume resume, String uuid) {
-        return LIST.indexOf(resume);
+    protected int getIndex(String uuid) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     protected void saveElement(int index, Resume resume) {
-        LIST.add(resume);
+        list.add(resume);
         System.out.println(resume.getUuid() + " добавлен в список");
     }
 
     @Override
-    protected boolean checkLimit() {
-        return false;
-    }
-
-    @Override
-    protected void deleteElement(String uuid, int index) {
-        Iterator<Resume> iterator = LIST.iterator();
-        while (iterator.hasNext()) {
-            Resume element = iterator.next();
-            if (element.getUuid().equals(uuid)) {
-                iterator.remove();
-            }
-        }
+    protected void deleteElement(int index) {
+        list.remove(index);
     }
 
     @Override
     protected Resume getElement(int index) {
-        return LIST.get(index);
+        return list.get(index);
     }
 
     public int size() {
-        return LIST.size();
+        return list.size();
     }
 
     public Resume[] getAll() {
-        return LIST.toArray(new Resume[LIST.size()]);
+        return list.toArray(new Resume[list.size()]);
     }
 }
