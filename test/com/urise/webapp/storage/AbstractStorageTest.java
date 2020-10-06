@@ -2,7 +2,6 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
-import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
@@ -45,15 +44,17 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void updateFirstElement() {
-        storage.update(R1);
-        storage.get("1");
+        Resume R5 = new Resume("1");
+        storage.update(R5);
+        Assert.assertEquals(R5, storage.get("1"));
         Assert.assertEquals(3, storage.size());
     }
 
     @Test
     public void updateLastElement() {
-        storage.update(R3);
-        storage.get("3");
+        Resume R6 = new Resume("3");
+        storage.update(R6);
+        Assert.assertEquals(R6, storage.get("3"));
         Assert.assertEquals(3, storage.size());
     }
 
@@ -69,9 +70,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        Resume R4 = (new Resume("4"));
+        Resume R4 = new Resume("4");
         storage.save(R4);
-        storage.get("4");
+        Assert.assertEquals(R4, storage.get("4"));
         Assert.assertEquals(4, storage.size());
     }
 
@@ -114,22 +115,5 @@ public abstract class AbstractStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void getNotExist() {
         storage.get("dummy");
-    }
-
-    @Test(expected = StorageException.class)
-    public void storageOverflow() {
-        if (storage instanceof ListStorage) {
-            throw new StorageException("Нет свободного места", "");
-        } else {
-            int storageSize = storage.size();
-            try {
-                for (int i = storageSize; i < AbstractArrayStorage.STORAGE_LIMIT - 1; i++) {
-                    storage.save(new Resume());
-                }
-            } catch (StorageException e) {
-                Assert.fail();
-            }
-            storage.save(new Resume());
-        }
     }
 }

@@ -11,8 +11,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    public void save(Resume resume) {
-        super.save(resume);
+    protected void saveElement(int index, Resume resume) {
         size++;
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Нет свободного места", resume.getUuid());
@@ -20,8 +19,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void delete(String uuid) {
-        super.delete(uuid);
+    protected void deleteElement(int index) {
         storage[size - 1] = null;
         size--;
     }
