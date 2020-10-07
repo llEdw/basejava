@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AbstractStorageTest {
-    private Storage storage;
+    protected Storage storage;
     private static final Resume R1 = new Resume("1");
     private static final Resume R2 = new Resume("2");
     private static final Resume R3 = new Resume("3");
@@ -44,17 +44,17 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void updateFirstElement() {
-        Resume R5 = new Resume("1");
-        storage.update(R5);
-        Assert.assertEquals(R5, storage.get("1"));
+        Resume r5 = new Resume("1");
+        storage.update(r5);
+        Assert.assertEquals(r5, storage.get("1"));
         Assert.assertEquals(3, storage.size());
     }
 
     @Test
     public void updateLastElement() {
-        Resume R6 = new Resume("3");
-        storage.update(R6);
-        Assert.assertEquals(R6, storage.get("3"));
+        Resume r6 = new Resume("3");
+        storage.update(r6);
+        Assert.assertEquals(r6, storage.get("3"));
         Assert.assertEquals(3, storage.size());
     }
 
@@ -70,9 +70,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        Resume R4 = new Resume("4");
-        storage.save(R4);
-        Assert.assertEquals(R4, storage.get("4"));
+        Resume r4 = new Resume("4");
+        storage.save(r4);
+        Assert.assertEquals(r4, storage.get("4"));
         Assert.assertEquals(4, storage.size());
     }
 

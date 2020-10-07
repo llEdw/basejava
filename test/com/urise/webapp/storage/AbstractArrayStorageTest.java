@@ -5,9 +5,7 @@ import com.urise.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class AbstractArrayStorageTest extends AbstractStorageTest {
-    private Storage storage;
-
+public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
     public AbstractArrayStorageTest(Storage storage) {
         super(storage);
         this.storage = storage;
@@ -21,7 +19,7 @@ public class AbstractArrayStorageTest extends AbstractStorageTest {
                 storage.save(new Resume());
             }
         } catch (StorageException e) {
-            Assert.fail();
+            Assert.fail("Фактический размер массива меньше предполагаемого");
         }
         storage.save(new Resume());
     }

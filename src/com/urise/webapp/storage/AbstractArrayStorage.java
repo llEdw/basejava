@@ -10,16 +10,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    @Override
-    protected void saveElement(int index, Resume resume) {
+    protected void doSave(Resume resume) {
         size++;
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Нет свободного места", resume.getUuid());
         }
     }
 
-    @Override
-    protected void deleteElement(int index) {
+    protected void doDelete() {
         storage[size - 1] = null;
         size--;
     }

@@ -16,13 +16,13 @@ public class ArrayStorage extends AbstractArrayStorage {
     @Override
     protected void deleteElement(int index) {
         storage[index] = storage[size - 1];
-        super.deleteElement(index);
+        doDelete();
     }
 
     @Override
     protected void saveElement(int index, Resume resume) {
         storage[size] = resume;
         System.out.println(resume.getUuid() + " добавлен(а) в массив");
-        super.saveElement(index, resume);
+        doSave(resume);
     }
 }
