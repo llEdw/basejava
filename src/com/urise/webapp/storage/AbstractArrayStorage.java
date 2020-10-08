@@ -10,17 +10,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
-    protected void doSave(Resume resume) {
+    @Override
+    protected void saveElement(int index, Resume resume) {
+        doSave(index, resume);
         size++;
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Нет свободного места", resume.getUuid());
         }
     }
 
-    protected void doDelete() {
+    protected abstract void doSave(int index, Resume resume);
+
+    @Override
+    protected void deleteElement(int index) {
+        doDelete(index);
         storage[size - 1] = null;
         size--;
     }
+
+    protected abstract void doDelete(int index);
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);

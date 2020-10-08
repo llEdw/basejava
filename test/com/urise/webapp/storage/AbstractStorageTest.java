@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public abstract class AbstractStorageTest {
-    protected Storage storage;
+    Storage storage;
     private static final Resume R1 = new Resume("1");
     private static final Resume R2 = new Resume("2");
     private static final Resume R3 = new Resume("3");
