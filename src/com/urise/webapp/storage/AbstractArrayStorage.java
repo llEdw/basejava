@@ -12,11 +12,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     protected void saveElement(int index, Resume resume) {
-        doSave(index, resume);
-        size++;
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Нет свободного места", resume.getUuid());
         }
+        doSave(index, resume);
+        size++;
     }
 
     protected abstract void doSave(int index, Resume resume);
