@@ -14,42 +14,41 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateElement(int index, Resume resume) {
-        map.put(intToString(index), resume);
+    protected void updateElement(int key, Resume resume) {
+        map.put(intToString(key), resume);
     }
 
     @Override
-    protected int getIndex(String uuid) {
-        for (Map.Entry<String, Resume> pair : map.entrySet()) {
-            if (pair.getKey().equals(uuid)) {
-                return stringToInt(pair.getKey());
-            }
+    protected int searchKey(String uuid) {
+        if (map.get(uuid) == null) {
+            return -1;
+        } else {
+            return stringToInt(uuid);
         }
-        return -1;
     }
 
     private int stringToInt(String uuid) {
         return Integer.parseInt(uuid);
     }
 
-    private String intToString(int index) {
-        return String.valueOf(index);
+    private String intToString(int key) {
+        return String.valueOf(key);
     }
 
     @Override
-    protected void saveElement(int index, Resume resume) {
+    protected void saveElement(int key, Resume resume) {
         map.put(resume.getUuid(), resume);
         System.out.println(resume.getUuid() + " добавлен в карту");
     }
 
     @Override
-    protected void deleteElement(int index) {
-        map.remove(intToString(index));
+    protected void deleteElement(int key) {
+        map.remove(intToString(key));
     }
 
     @Override
-    protected Resume getElement(int index) {
-        return map.get(intToString(index));
+    protected Resume getElement(int key) {
+        return map.get(intToString(key));
     }
 
     public int size() {

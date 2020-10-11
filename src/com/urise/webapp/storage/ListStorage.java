@@ -13,12 +13,12 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateElement(int index, Resume resume) {
-        list.set(index, resume);
+    protected void updateElement(int key, Resume resume) {
+        list.set(key, resume);
     }
 
     @Override
-    protected int getIndex(String uuid) {
+    protected int searchKey(String uuid) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getUuid().equals(uuid)) {
                 return i;
@@ -28,19 +28,19 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveElement(int index, Resume resume) {
+    protected void saveElement(int key, Resume resume) {
         list.add(resume);
         System.out.println(resume.getUuid() + " добавлен в список");
     }
 
     @Override
-    protected void deleteElement(int index) {
-        list.remove(index);
+    protected void deleteElement(int key) {
+        list.remove(key);
     }
 
     @Override
-    protected Resume getElement(int index) {
-        return list.get(index);
+    protected Resume getElement(int key) {
+        return list.get(key);
     }
 
     public int size() {

@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 public class ArrayStorage extends AbstractArrayStorage {
     @Override
-    protected int getIndex(String uuid) {
+    protected int searchKey(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
@@ -14,12 +14,12 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void doDelete(int index) {
-        storage[index] = storage[size - 1];
+    protected void doDelete(int key) {
+        storage[key] = storage[size - 1];
     }
 
     @Override
-    protected void doSave(int index, Resume resume) {
+    protected void doSave(int key, Resume resume) {
         storage[size] = resume;
         System.out.println(resume.getUuid() + " добавлен(а) в массив");
     }
