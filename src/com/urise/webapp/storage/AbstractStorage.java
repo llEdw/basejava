@@ -4,52 +4,63 @@ import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 
+import java.util.Comparator;
+
 public abstract class AbstractStorage implements Storage {
-    public void update(Resume resume) {
-        int key = searchKey(resume.getUuid());
-        if (key >= 0) {
-            updateElement(key, resume);
-            System.out.println("Резюме " + resume.getUuid() + " обновлено");
+    protected static final Comparator<Resume> RESUME_COMPARATOR = (o1, o2) -> {
+        if (o1.getFullName() != (o2.getFullName())) {
+            return o1.getFullName().compareTo(o2.getFullName());
         } else {
-            throw new NotExistStorageException(resume.getUuid());
+            return o1.getUuid().compareTo(o2.getUuid());
         }
+    };
+
+    public void update(Resume resume) {
+        Object searchKey = getExistedSearchKey(resume.getUuid());
+        doUpdate(searchKey, resume);
     }
 
-    protected abstract void updateElement(int key, Resume resume);
+    protected abstract void doUpdate(Object searchKey, Resume resume);
 
     public void save(Resume resume) {
-        int key = searchKey(resume.getUuid());
-        if (key >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            saveElement(key, resume);
-        }
+        Object searchKey = getNotExistedSearchKey(resume.getUuid());
+        doSave(searchKey, resume);
     }
 
-    protected abstract void saveElement(int key, Resume resume);
+    protected abstract void doSave(Object searchKey, Resume resume);
 
     public void delete(String uuid) {
-        int key = searchKey(uuid);
-        if (key < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            deleteElement(key);
-            System.out.println("Резюме " + uuid + " удален(а)");
-        }
+        Object searchKey = getExistedSearchKey(uuid);
+        doDelete(searchKey);
     }
 
-    protected abstract void deleteElement(int key);
+    protected abstract void doDelete(Object searchKey);
 
     public Resume get(String uuid) {
-        int key = searchKey(uuid);
-        if (key >= 0) {
-            System.out.println("Найдено резюме ");
-            return getElement(key);
-        }
-        throw new NotExistStorageException(uuid);
+        Object searchKey = getExistedSearchKey(uuid);
+        return doGet(searchKey);
     }
 
-    protected abstract Resume getElement(int key);
+    protected abstract Resume doGet(Object searchKey);
 
-    protected abstract int searchKey(String uuid);
+    protected abstract Object getSearchKey(String uuid);
+
+    private Object getExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (!isExist(searchKey)) {
+            throw new NotExistStorageException(uuid);
+        }
+        return searchKey;
+    }
+
+    private Object getNotExistedSearchKey(String uuid) {
+        Object searchKey = getSearchKey(uuid);
+        if (isExist(searchKey)) {
+            throw new ExistStorageException(uuid);
+        }
+        return searchKey;
+    }
+
+    protected abstract boolean isExist(Object searchKey);
+
 }

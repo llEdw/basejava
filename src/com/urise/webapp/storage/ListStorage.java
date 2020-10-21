@@ -3,9 +3,10 @@ package com.urise.webapp.storage;
 import com.urise.webapp.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private ArrayList<Resume> list = new ArrayList<>();
+    private List<Resume> list = new ArrayList<>();
 
     public void clear() {
         System.out.println("Список очищен, удалено " + list.size() + " элементов");
@@ -13,41 +14,50 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void updateElement(int key, Resume resume) {
-        list.set(key, resume);
+    protected void doUpdate(Object searchKey, Resume resume) {
+        list.set((Integer) searchKey, resume);
     }
 
     @Override
-    protected int searchKey(String uuid) {
+    protected Integer getSearchKey(String uuid) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getUuid().equals(uuid)) {
                 return i;
             }
         }
-        return -1;
+        return null;
     }
 
     @Override
-    protected void saveElement(int key, Resume resume) {
+    protected void doSave(Object searchKey, Resume resume) {
         list.add(resume);
         System.out.println(resume.getUuid() + " добавлен в список");
     }
 
     @Override
-    protected void deleteElement(int key) {
-        list.remove(key);
+    protected void doDelete(Object searchKey) {
+        list.remove(((Integer) searchKey).intValue());
     }
 
     @Override
-    protected Resume getElement(int key) {
-        return list.get(key);
+    protected Resume doGet(Object searchKey) {
+        return list.get((Integer) searchKey);
     }
 
     public int size() {
         return list.size();
     }
 
-    public Resume[] getAll() {
-        return list.toArray(new Resume[list.size()]);
+    @Override
+    public List<Resume> getAllSorted() {
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
+
+    @Override
+    protected boolean isExist(Object searchKey) {
+        return searchKey != null;
+    }
+
+
 }

@@ -4,6 +4,7 @@ import com.urise.webapp.exception.StorageException;
 import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int STORAGE_LIMIT = 20;
@@ -11,24 +12,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int size = 0;
 
     @Override
-    protected void saveElement(int key, Resume resume) {
+    protected void doSave(Object index, Resume resume) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Нет свободного места", resume.getUuid());
+        } else {
+            saveElement((Integer) index, resume);
+            size++;
         }
-        doSave(key, resume);
-        size++;
     }
 
-    protected abstract void doSave(int key, Resume resume);
+    protected abstract void saveElement(int index, Resume resume);
 
     @Override
-    protected void deleteElement(int key) {
-        doDelete(key);
+    protected void doDelete(Object index) {
+        deleteElement((Integer) index);
         storage[size - 1] = null;
         size--;
     }
 
-    protected abstract void doDelete(int key);
+    protected abstract void deleteElement(int index);
 
     public void clear() {
         Arrays.fill(storage, 0, size, null);
@@ -36,8 +38,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
+    @Override
+    public List<Resume> getAllSorted() {
+        List<Resume> list = Arrays.asList(Arrays.copyOf(storage, size));
+        list.sort(RESUME_COMPARATOR);
+        return list;
     }
 
     public int size() {
@@ -45,12 +50,20 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getElement(int key) {
-        return storage[key];
+    protected Resume doGet(Object index) {
+        return storage[(Integer) index];
     }
 
     @Override
-    protected void updateElement(int key, Resume resume) {
-        storage[key] = resume;
+    protected void doUpdate(Object index, Resume resume) {
+        storage[(Integer) index] = resume;
     }
+
+    @Override
+    protected boolean isExist(Object index) {
+        return (Integer) index >= 0;
+    }
+
+    @Override
+    protected abstract Integer getSearchKey(String uuid);
 }
