@@ -19,16 +19,12 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected String getSearchKey(String uuid) {
-        if (map.get(uuid) == null) {
-            return null;
-        } else {
-            return uuid;
-        }
+        return uuid;
     }
 
     @Override
     protected boolean isExist(Object searchKey) {
-        return searchKey != null;
+        return map.containsKey(searchKey);
     }
 
     @Override
@@ -52,9 +48,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    protected List<Resume> getList() {
         List<Resume> list = new ArrayList<>(map.values());
-        list.sort(RESUME_COMPARATOR);
         return list;
     }
 }

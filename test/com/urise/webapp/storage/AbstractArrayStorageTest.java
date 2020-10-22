@@ -15,11 +15,11 @@ public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
         int storageSize = storage.size();
         try {
             for (int i = storageSize; i < AbstractArrayStorage.STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
+                storage.save(new Resume("p"));
             }
         } catch (StorageException e) {
             Assert.fail("Фактический размер массива меньше предполагаемого");
         }
-        storage.save(new Resume());
+        storage.save(new Resume("p"));
     }
 }

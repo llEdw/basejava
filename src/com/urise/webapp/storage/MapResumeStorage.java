@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapFullnameStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage {
     private Map<String, Resume> map = new HashMap<>();
 
     public void clear() {
@@ -48,9 +48,8 @@ public class MapFullnameStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getAllSorted() {
+    protected List<Resume> getList() {
         List<Resume> list = new ArrayList<>(map.values());
-        list.sort(RESUME_COMPARATOR);
         return list;
     }
 }

@@ -16,7 +16,6 @@ public abstract class AbstractStorageTest {
     private static final Resume R2 = new Resume("2", "a");
     private static final Resume R3 = new Resume("3", "b");
     private static final Resume R0 = new Resume("dummy", "e");
-    private static final List<Resume> list = Arrays.asList(R2, R3, R1);
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -51,7 +50,6 @@ public abstract class AbstractStorageTest {
         Resume r5 = new Resume("1", "f");
         storage.update(r5);
         Assert.assertEquals(r5, storage.get("1"));
-        Assert.assertEquals(r5.getFullName(), storage.get("1").getFullName());
         Assert.assertEquals(3, storage.size());
     }
 
@@ -59,7 +57,7 @@ public abstract class AbstractStorageTest {
     public void updateLastElement() {
         Resume r6 = new Resume("3", "g");
         storage.update(r6);
-        Assert.assertEquals(r6.getFullName(), storage.get("3").getFullName());
+        Assert.assertEquals(r6, storage.get("3"));
         Assert.assertEquals(3, storage.size());
     }
 
@@ -83,6 +81,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() {
+        List<Resume> list = Arrays.asList(R2, R3, R1);
         Assert.assertEquals(storage.getAllSorted(), list);
     }
 

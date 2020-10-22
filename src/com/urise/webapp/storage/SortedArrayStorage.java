@@ -16,15 +16,15 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     private static final Comparator<Resume> RESUME_SAS_COMPARATOR = (o1, o2) -> o1.getUuid().compareTo(o2.getUuid());
 
     @Override
-    protected void deleteElement(int key) {
-        System.arraycopy(storage, key + 1, storage, key, size - key - 1);
+    protected void deleteElement(int index) {
+        System.arraycopy(storage, index + 1, storage, index, size - index - 1);
     }
 
     @Override
-    protected void saveElement(int key, Resume resume) {
-        key = -(key + 1);
-        System.arraycopy(storage, key, storage, key + 1, size - key);
-        storage[key] = resume;
+    protected void saveElement(int index, Resume resume) {
+        index = -(index + 1);
+        System.arraycopy(storage, index, storage, index + 1, size - index);
+        storage[index] = resume;
         System.out.println(resume.getUuid() + " добавлен(а) в массив");
     }
 }
