@@ -6,17 +6,17 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     protected static final int STORAGE_LIMIT = 20;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
     @Override
-    protected void doSave(Object index, Resume resume) {
+    protected void doSave(Integer index, Resume resume) {
         if (size >= STORAGE_LIMIT) {
             throw new StorageException("Нет свободного места", resume.getUuid());
         } else {
-            saveElement((Integer) index, resume);
+            saveElement(index, resume);
             size++;
         }
     }
@@ -24,8 +24,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void saveElement(int index, Resume resume);
 
     @Override
-    protected void doDelete(Object index) {
-        deleteElement((Integer) index);
+    protected void doDelete(Integer index) {
+        deleteElement(index);
         storage[size - 1] = null;
         size--;
     }
@@ -48,18 +48,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet(Object index) {
-        return storage[(Integer) index];
+    protected Resume doGet(Integer index) {
+        return storage[index];
     }
 
     @Override
-    protected void doUpdate(Object index, Resume resume) {
-        storage[(Integer) index] = resume;
+    protected void doUpdate(Integer index, Resume resume) {
+        storage[index] = resume;
     }
 
     @Override
-    protected boolean isExist(Object index) {
-        return (Integer) index >= 0;
+    protected boolean isExist(Integer index) {
+        return index >= 0;
     }
 
     @Override
