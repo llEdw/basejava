@@ -10,12 +10,14 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.urise.webapp.ResumeTestData.resumeFill;
+
 public abstract class AbstractStorageTest {
     Storage storage;
-    private static final Resume R1 = new Resume("1", "c");
-    private static final Resume R2 = new Resume("2", "a");
-    private static final Resume R3 = new Resume("3", "b");
-    private static final Resume R0 = new Resume("dummy", "e");
+    private static final Resume R1 = resumeFill("1", "c");
+    private static final Resume R2 = resumeFill("2", "a");
+    private static final Resume R3 = resumeFill("3", "b");
+    private static final Resume R0 = resumeFill("dummy", "e");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
