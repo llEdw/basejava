@@ -2,9 +2,7 @@ package com.urise.webapp.model;
 
 import java.util.*;
 
-/**
- * Initial resume class
- */
+
 public class Resume {
 
     private final String uuid;
@@ -12,7 +10,7 @@ public class Resume {
     private final String fullName;
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
@@ -39,11 +37,11 @@ public class Resume {
         contacts.put(type, contact);
     }
 
-    public Section getSection(SectionType type) {
+    public AbstractSection getSection(SectionType type) {
         return sections.get(type);
     }
 
-    public void addSection(SectionType type, Section section) {
+    public void addSection(SectionType type, AbstractSection section) {
         sections.put(type, section);
     }
 
@@ -51,13 +49,19 @@ public class Resume {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Resume resume = (Resume) o;
-        return uuid.equals(resume.uuid) && fullName.equals(resume.fullName);
+
+        if (!uuid.equals(resume.uuid)) return false;
+        return fullName.equals(resume.fullName);
+
     }
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        int result = uuid.hashCode();
+        result = 31 * result + fullName.hashCode();
+        return result;
     }
 
     @Override

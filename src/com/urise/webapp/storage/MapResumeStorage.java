@@ -40,7 +40,7 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
 
     @Override
     protected Resume doGet(Resume searchKey) {
-        return map.get((searchKey).getUuid());
+        return searchKey;
     }
 
     public int size() {

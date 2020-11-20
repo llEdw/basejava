@@ -3,11 +3,7 @@ package com.urise.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * gkislin
- * 19.07.2016
- */
-public class OrganizationSection extends Section {
+public class OrganizationSection extends AbstractSection {
     private final List<Organization> organizations;
 
     public OrganizationSection(List<Organization> organizations) {
