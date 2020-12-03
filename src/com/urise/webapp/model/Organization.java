@@ -7,12 +7,14 @@ import java.util.Objects;
 public class Organization {
     private final List<OrganizationDescription> organizationDescriptions;
     private final String name;
+    private final String url;
 
-    public Organization(String name, List<OrganizationDescription> organizationDescriptions) {
+    public Organization(String name, String url, List<OrganizationDescription> organizationDescriptions) {
         Objects.requireNonNull(name, "name must not be null");
         Objects.requireNonNull(organizationDescriptions, "organizationDescriptions must not be null");
         this.organizationDescriptions = organizationDescriptions;
         this.name = name;
+        this.url = url;
     }
 
     @Override
@@ -20,15 +22,14 @@ public class Organization {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Organization that = (Organization) o;
-        return organizationDescriptions.equals(that.organizationDescriptions) &&
-                name.equals(that.name);
+        return Objects.equals(organizationDescriptions, that.organizationDescriptions) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(url, that.url);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + organizationDescriptions.hashCode();
-        return result;
+        return Objects.hash(organizationDescriptions, name, url);
     }
 
     @Override

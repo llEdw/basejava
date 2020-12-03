@@ -13,7 +13,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         return Arrays.binarySearch(storage, 0, size, searchKey, RESUME_SAS_COMPARATOR);
     }
 
-    private static final Comparator<Resume> RESUME_SAS_COMPARATOR = (o1, o2) -> o1.getUuid().compareTo(o2.getUuid());
+    private static final Comparator<Resume> RESUME_SAS_COMPARATOR = Comparator.comparing(Resume::getUuid);
 
     @Override
     protected void deleteElement(int index) {

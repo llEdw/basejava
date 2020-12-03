@@ -10,14 +10,14 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.urise.webapp.ResumeTestData.resumeFill;
+import static com.urise.webapp.ResumeTestData.fillResume;
 
 public abstract class AbstractStorageTest {
     Storage storage;
-    private static final Resume R1 = resumeFill("1", "c");
-    private static final Resume R2 = resumeFill("2", "a");
-    private static final Resume R3 = resumeFill("3", "b");
-    private static final Resume R0 = resumeFill("dummy", "e");
+    private static final Resume R1 = fillResume("1", "c");
+    private static final Resume R2 = fillResume("2", "a");
+    private static final Resume R3 = fillResume("3", "b");
+    private static final Resume R0 = fillResume("dummy", "e");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -49,7 +49,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void updateFirstElement() {
-        Resume r5 = new Resume("1", "f");
+        Resume r5 = fillResume("1", "f");
         storage.update(r5);
         Assert.assertEquals(r5, storage.get("1"));
         Assert.assertEquals(3, storage.size());
@@ -57,7 +57,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void updateLastElement() {
-        Resume r6 = new Resume("3", "g");
+        Resume r6 = fillResume("3", "g");
         storage.update(r6);
         Assert.assertEquals(r6, storage.get("3"));
         Assert.assertEquals(3, storage.size());
@@ -75,7 +75,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        Resume r4 = new Resume("4", "h");
+        Resume r4 = fillResume("4", "h");
         storage.save(r4);
         Assert.assertEquals(r4, storage.get("4"));
         Assert.assertEquals(4, storage.size());
