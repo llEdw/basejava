@@ -13,6 +13,7 @@ import java.util.List;
 import static com.urise.webapp.ResumeTestData.fillResume;
 
 public abstract class AbstractStorageTest {
+    protected static final String STORAGE_DIR = ".\\Storage";
     Storage storage;
     private static final Resume R1 = fillResume("1", "c");
     private static final Resume R2 = fillResume("2", "a");

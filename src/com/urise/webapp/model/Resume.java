@@ -1,12 +1,13 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.*;
 
 
-public class Resume {
+public class Resume implements Serializable {
 
     private final String uuid;
-
+    private static final long serialVersionUID = 1L;
     private final String fullName;
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);

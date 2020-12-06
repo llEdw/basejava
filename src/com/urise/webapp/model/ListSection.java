@@ -1,10 +1,12 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class ListSection extends AbstractSection {
+public class ListSection extends AbstractSection implements Serializable {
     private final List<String> items;
+    private static final long serialVersionUID = 1L;
 
     public ListSection(List<String> items) {
         Objects.requireNonNull(items, "items must not be null");

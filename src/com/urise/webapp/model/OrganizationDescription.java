@@ -1,14 +1,16 @@
 package com.urise.webapp.model;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
-public class OrganizationDescription {
+public class OrganizationDescription implements Serializable {
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final String title;
     private final String description;
+    private static final long serialVersionUID = 1L;
 
     public OrganizationDescription(LocalDate startDate, LocalDate endDate, String title, String description) {
         Objects.requireNonNull(startDate, "startDate must not be null");
