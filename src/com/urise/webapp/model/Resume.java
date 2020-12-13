@@ -11,13 +11,15 @@ public class Resume implements Serializable {
     private final String fullName;
 
     private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
+    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);
     }
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(uuid, "uuid must not be null");
+        Objects.requireNonNull(fullName, "fullName must not be null");
         this.uuid = uuid;
         this.fullName = fullName;
     }
@@ -31,18 +33,18 @@ public class Resume implements Serializable {
     }
 
     public String getContact(ContactType type) {
-        return type.getTitle() + " - " + contacts.get(type);
+        return contacts.get(type);
     }
 
-    public void addContact(ContactType type, String contact) {
-        contacts.put(type, contact);
-    }
-
-    public AbstractSection getSection(SectionType type) {
+    public Section getSection(SectionType type) {
         return sections.get(type);
     }
 
-    public void addSection(SectionType type, AbstractSection section) {
+    public void addContact(ContactType type, String value) {
+        contacts.put(type, value);
+    }
+
+    public void addSection(SectionType type, Section section) {
         sections.put(type, section);
     }
 
