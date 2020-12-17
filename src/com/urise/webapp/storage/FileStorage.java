@@ -94,7 +94,7 @@ public class FileStorage extends AbstractStorage<File> {
     private File[] getListFile() {
         File[] files = directory.listFiles();
         if (files == null) {
-            throw new StorageException("directory is empty", null);
+            throw new StorageException("directory is empty");
         }
         return files;
     }

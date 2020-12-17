@@ -22,40 +22,40 @@ public class ResumeTestData {
            ("Аналитический склад ума, сильная логика, креативность, инициативность. Пурист кода и архитектуры."));
 
        resume.addSection(SectionType.ACHIEVEMENT, new ListSection
-           ("\b\u2022С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", " +
+           ("С 2013 года: разработка проектов \"Разработка Web приложения\",\"Java Enterprise\", " +
                "\"Многомодульный maven. Многопоточность. XML (JAXB/StAX). Веб сервисы (JAX-RS/SOAP). " +
                "Удаленное взаимодействие (JMS/AKKA)\". Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.",
-           "\n\u2022Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. " +
+           "Реализация двухфакторной аутентификации для онлайн платформы управления проектами Wrike. " +
                "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.",
-           "\n\u2022Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, " +
+           "Налаживание процесса разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, " +
                "CMIS, LDAP. Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery. " +
                "Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.",
-           "\n\u2022Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, " +
+           "Реализация c нуля Rich Internet Application приложения на стеке технологий JPA, Spring, Spring-MVC, GWT, " +
                "ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.",
-           "\n\u2022Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов " +
+           "Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных сервисов " +
                "(SOA-base архитектура, JAX-WS, JMS, AS Glassfish). Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. " +
                "Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Jython/ Django).",
-           "\n\u2022Реализация протоколов по приему платежей всех основных платежных системы России " +
+           "Реализация протоколов по приему платежей всех основных платежных системы России " +
                "(Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа."));
 
        resume.addSection(SectionType.QUALIFICATIONS, new ListSection
-           ("\b\u2022JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
-           "\n\u2022Version control: Subversion, Git, Mercury, ClearCase, Perforce",
-           "\n\u2022DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,",
-           "\n\u2022MySQL, SQLite, MS SQL, HSQLDB",
-           "\n\u2022Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,",
-           "\n\u2022XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,",
-           "\n\u2022Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot)," +
+           ("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
+           "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
+           "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,",
+           "MySQL, SQLite, MS SQL, HSQLDB",
+           "Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,",
+           "XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,",
+           "Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, Spring (MVC, Security, Data, Clouds, Boot)," +
                " JPA (Hibernate, EclipseLink), Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, " +
                "Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).",
-           "\n\u2022Python: Django.",
-           "\n\u2022JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js", "\nScala: SBT, Play2, Specs2, Anorm, Spray, Akka",
-           "\n\u2022Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB," +
+           "Python: Django.",
+           "JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js", "\nScala: SBT, Play2, Specs2, Anorm, Spray, Akka",
+           "Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX, DOM, XSLT, MDB," +
                " JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.",
-           "\n\u2022Инструменты: Maven + plugin development, Gradle, настройка Ngnix,", "\nадминистрирование Hudson/Jenkins, " +
+           "Инструменты: Maven + plugin development, Gradle, настройка Ngnix,", "\nадминистрирование Hudson/Jenkins, " +
                "Ant + custom task, SoapUI, JPublisher, Flyway, Nagios, iReport, OpenCmis, Bonita, pgBouncer.",
-           "\n\u2022Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования",
-           "\n\u2022Родной русский, английский \"upper intermediate\""));
+           "Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, архитектурных шаблонов, UML, функционального программирования",
+           "Родной русский, английский \"upper intermediate\""));
 
        resume.addSection(SectionType.EXPERIENCE, new OrganizationSection(
           new Organization("Java Online Projects", "https://javaops.ru/",
