@@ -24,36 +24,44 @@ public class DataStreamSerialization implements Serialization {
             Map<SectionType, Section> sections = resume.getSections();
             dos.writeInt(sections.size());
             for (Map.Entry<SectionType, Section> entry : sections.entrySet()) {
-                dos.writeUTF((entry.getValue()).getClass().getSimpleName());
-                if (entry.getValue() instanceof TextSection) {
-                    dos.writeUTF(entry.getKey().name());
-                    dos.writeUTF(entry.getValue().toString());
-                } else if (entry.getValue() instanceof ListSection) {
-                    int sizeOfItems = ((ListSection) entry.getValue()).getItems().size();
-                    dos.writeInt(sizeOfItems);
-                    dos.writeUTF(entry.getKey().name());
-                    for (String item : ((ListSection) entry.getValue()).getItems()) {
-                        dos.writeUTF(item);
-                    }
-                } else {
-                    int sizeOfOrganization = ((OrganizationSection) entry.getValue()).getOrganizations().size();
-                    dos.writeInt(sizeOfOrganization);
-                    dos.writeUTF(entry.getKey().name());
-                    for (Organization organization : ((OrganizationSection) entry.getValue()).getOrganizations()) {
-                        dos.writeUTF(organization.getHomePage().getName());
-                        dos.writeUTF(organization.getHomePage().getUrl() + "");
-                        dos.writeInt(organization.getPositions().size());
-                        for (Organization.Position position : organization.getPositions()) {
-                            dos.writeUTF(position.getDescription() + "");
-                            dos.writeUTF(position.getTitle());
-                            dos.writeInt(position.getStartDate().getYear());
-                            dos.writeUTF(position.getStartDate().getMonth().name());
-                            dos.writeInt(position.getEndDate().getYear());
-                            dos.writeUTF(position.getEndDate().getMonth().name());
+                dos.writeUTF(entry.getKey().name());
+                switch (entry.getKey()) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        dos.writeUTF(entry.getValue().toString());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        int sizeOfItems = ((ListSection) entry.getValue()).getItems().size();
+                        dos.writeInt(sizeOfItems);
+                        for (String item : ((ListSection) entry.getValue()).getItems()) {
+                            dos.writeUTF(item);
                         }
-                    }
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        int sizeOfOrganization = ((OrganizationSection) entry.getValue()).getOrganizations().size();
+                        dos.writeInt(sizeOfOrganization);
+                        for (Organization organization : ((OrganizationSection) entry.getValue()).getOrganizations()) {
+                            dos.writeUTF(organization.getHomePage().getName());
+                            dos.writeUTF(organization.getHomePage().getUrl());
+                            dos.writeInt(organization.getPositions().size());
+                            positionWriter(organization, dos);
+                        }
+                        break;
                 }
             }
+        }
+    }
+
+    private void positionWriter(Organization organization, DataOutputStream dos) throws IOException {
+        for (Organization.Position position : organization.getPositions()) {
+            dos.writeUTF(position.getDescription());
+            dos.writeUTF(position.getTitle());
+            dos.writeInt(position.getStartDate().getYear());
+            dos.writeUTF(position.getStartDate().getMonth().name());
+            dos.writeInt(position.getEndDate().getYear());
+            dos.writeUTF(position.getEndDate().getMonth().name());
         }
     }
 
@@ -69,45 +77,51 @@ public class DataStreamSerialization implements Serialization {
             }
             int sizeOfSection = dis.readInt();
             for (int i = 0; i < sizeOfSection; i++) {
-                String className = dis.readUTF();
-                if (className.equals("TextSection")) {
-                    SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                    String contents = dis.readUTF();
-                    resume.addSection(sectionType, new TextSection(contents));
-                } else if (className.equals("ListSection")) {
-                    List<String> items = new ArrayList<>();
-                    int sizeOfItems = dis.readInt();
-                    SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                    for (int j = 0; j < sizeOfItems; j++) {
-                        items.add(dis.readUTF());
-                    }
-                    resume.addSection(sectionType, new ListSection(items));
-                } else {
-                    List<Organization> organizations = new ArrayList<>();
-                    int sizeOfOrganization = dis.readInt();
-                    SectionType sectionType = SectionType.valueOf(dis.readUTF());
-                    for (int j = 0; j < sizeOfOrganization; j++) {
-                        String name = dis.readUTF();
-                        String url = dis.readUTF();
-                        if (url.equals("null")) url = null;
-                        int sizeOfPositions = dis.readInt();
-                        List<Organization.Position> positions = new ArrayList<>();
-                        for (int k = 0; k < sizeOfPositions; k++) {
-                            String description = dis.readUTF();
-                            if (description.equals("null")) description = null;
-                            String title = dis.readUTF();
-                            int startYear = dis.readInt();
-                            Month startMonth = Month.valueOf(dis.readUTF());
-                            int endYear = dis.readInt();
-                            Month endMonth = Month.valueOf(dis.readUTF());
-                            positions.add(new Organization.Position(startYear, startMonth, endYear, endMonth, title, description));
+                SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                switch (sectionType) {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        String contents = dis.readUTF();
+                        resume.addSection(sectionType, new TextSection(contents));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        List<String> items = new ArrayList<>();
+                        int sizeOfItems = dis.readInt();
+                        for (int j = 0; j < sizeOfItems; j++) {
+                            items.add(dis.readUTF());
                         }
-                        organizations.add(new Organization(name, url, positions));
-                    }
-                    resume.addSection(sectionType, new OrganizationSection(organizations));
+                        resume.addSection(sectionType, new ListSection(items));
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        List<Organization> organizations = new ArrayList<>();
+                        int sizeOfOrganization = dis.readInt();
+                        for (int j = 0; j < sizeOfOrganization; j++) {
+                            String name = dis.readUTF();
+                            String url = dis.readUTF();
+                            organizations.add(new Organization(name, url, positionReader(dis)));
+                        }
+                        resume.addSection(sectionType, new OrganizationSection(organizations));
+                        break;
                 }
             }
             return resume;
         }
+    }
+
+    private ArrayList<Organization.Position> positionReader(DataInputStream dis) throws IOException {
+        ArrayList<Organization.Position> positions = new ArrayList<>();
+        int sizeOfPositions = dis.readInt();
+        for (int k = 0; k < sizeOfPositions; k++) {
+            String description = dis.readUTF();
+            String title = dis.readUTF();
+            int startYear = dis.readInt();
+            Month startMonth = Month.valueOf(dis.readUTF());
+            int endYear = dis.readInt();
+            Month endMonth = Month.valueOf(dis.readUTF());
+            positions.add(new Organization.Position(startYear, startMonth, endYear, endMonth, title, description));
+        }
+        return positions;
     }
 }

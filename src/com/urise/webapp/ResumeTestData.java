@@ -66,7 +66,7 @@ public class ResumeTestData {
                            "Старший разработчик (backend)", "Проектирование и разработка онлайн платформы управления проектами Wrike " +
                     "(Java 8 API, Maven, Spring, MyBatis, Guava, Vaadin, PostgreSQL, Redis). " +
                     "Двухфакторная аутентификация, авторизация по OAuth1, OAuth2, JWT SSO.")),
-          new Organization("RIT Center", null,
+          new Organization("RIT Center", "",
                    new Organization.Position(2012, Month.APRIL, 2014, Month.OCTOBER, "Java архитектор",
                    "Организация процесса разработки системы ERP для разных окружений: " +
                    "релизная политика, версионирование, ведение CI (Jenkins), миграция базы (кастомизация Flyway), " +
@@ -102,25 +102,25 @@ public class ResumeTestData {
        resume.addSection(SectionType.EDUCATION, new OrganizationSection(
           new Organization("Coursera", "https://www.coursera.org/learn/progfun1",
                   new Organization.Position(2013, Month.MARCH, 2013, Month.MAY,
-                   "\"Functional Programming Principles in Scala\" by Martin Odersky", null)),
+                   "\"Functional Programming Principles in Scala\" by Martin Odersky", "")),
           new Organization("Luxoft", "https://www.luxoft-training.ru",
                   new Organization.Position(2011, Month.MARCH, 2011, Month.APRIL,
-                   "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", null)),
+                   "Курс \"Объектно-ориентированный анализ ИС. Концептуальное моделирование на UML.\"", "")),
           new Organization("Siemens AG", "https://new.siemens.com/ru/ru.html",
                   new Organization.Position(2005, Month.JANUARY, 2005, Month.APRIL,
-                           "3 месяца обучения мобильным IN сетям (Берлин)", null)),
+                           "3 месяца обучения мобильным IN сетям (Берлин)", "")),
           new Organization("Alcatel", "http://www.alcatel.ru/",
                   new Organization.Position(1997, Month.SEPTEMBER, 1998, Month.MARCH,
-                          "6 месяцев обучения цифровым телефонным сетям (Москва)", null)),
+                          "6 месяцев обучения цифровым телефонным сетям (Москва)", "")),
           new Organization("Санкт-Петербургский национальный исследовательский университет информационных технологий, механики и оптики",
                    "https://itmo.ru/ru/",
                   new Organization.Position(1993, Month.OCTOBER, 1996, Month.JULY,
-                  "Аспирантура (программист С, С++)", null),
+                  "Аспирантура (программист С, С++)", ""),
                   new Organization.Position(1987, Month.SEPTEMBER, 1993, Month.JULY,
-                  "Инженер (программист Fortran, C)", null)),
+                  "Инженер (программист Fortran, C)", "")),
           new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/",
                   new Organization.Position(1984, Month.SEPTEMBER, 1987, Month.JUNE,
-                  "Закончил с отличием", null))));
+                  "Закончил с отличием", ""))));
        return resume;
    }
 }
