@@ -3,6 +3,7 @@ package com.urise.webapp.storage.serialization;
 import com.urise.webapp.model.*;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +45,14 @@ public class DataStreamSerialization implements Serialization {
                         dos.writeInt(sizeOfOrganization);
                         for (Organization organization : ((OrganizationSection) entry.getValue()).getOrganizations()) {
                             dos.writeUTF(organization.getHomePage().getName());
-                            dos.writeUTF(organization.getHomePage().getUrl());
+                            dos.writeUTF(organization.getHomePage().getUrl() + "");
                             dos.writeInt(organization.getPositions().size());
-                            positionWriter(organization, dos);
+                            for (Organization.Position position : organization.getPositions()) {
+                                dos.writeUTF(position.getDescription() + "");
+                                dos.writeUTF(position.getTitle());
+                                writeDate(dos, position.getStartDate());
+                                writeDate(dos, position.getEndDate());
+                            }
                         }
                         break;
                 }
@@ -54,15 +60,9 @@ public class DataStreamSerialization implements Serialization {
         }
     }
 
-    private void positionWriter(Organization organization, DataOutputStream dos) throws IOException {
-        for (Organization.Position position : organization.getPositions()) {
-            dos.writeUTF(position.getDescription());
-            dos.writeUTF(position.getTitle());
-            dos.writeInt(position.getStartDate().getYear());
-            dos.writeUTF(position.getStartDate().getMonth().name());
-            dos.writeInt(position.getEndDate().getYear());
-            dos.writeUTF(position.getEndDate().getMonth().name());
-        }
+    private void writeDate(DataOutputStream dos, LocalDate date) throws IOException {
+        dos.writeInt(date.getYear());
+        dos.writeUTF(date.getMonth().name());
     }
 
     @Override
@@ -100,7 +100,22 @@ public class DataStreamSerialization implements Serialization {
                         for (int j = 0; j < sizeOfOrganization; j++) {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
-                            organizations.add(new Organization(name, url, positionReader(dis)));
+                            if (url.equals("null")) {
+                                url = null;
+                            }
+                            ArrayList<Organization.Position> positions = new ArrayList<>();
+                            int sizeOfPositions = dis.readInt();
+                            for (int k = 0; k < sizeOfPositions; k++) {
+                                String description = dis.readUTF();
+                                if (description.equals("null")) {
+                                    description = null;
+                                }
+                                String title = dis.readUTF();
+                                LocalDate startDate = readDate(dis);
+                                LocalDate endDate = readDate(dis);
+                                positions.add(new Organization.Position(startDate, endDate, title, description));
+                            }
+                            organizations.add(new Organization(name, url, positions));
                         }
                         resume.addSection(sectionType, new OrganizationSection(organizations));
                         break;
@@ -110,18 +125,9 @@ public class DataStreamSerialization implements Serialization {
         }
     }
 
-    private ArrayList<Organization.Position> positionReader(DataInputStream dis) throws IOException {
-        ArrayList<Organization.Position> positions = new ArrayList<>();
-        int sizeOfPositions = dis.readInt();
-        for (int k = 0; k < sizeOfPositions; k++) {
-            String description = dis.readUTF();
-            String title = dis.readUTF();
-            int startYear = dis.readInt();
-            Month startMonth = Month.valueOf(dis.readUTF());
-            int endYear = dis.readInt();
-            Month endMonth = Month.valueOf(dis.readUTF());
-            positions.add(new Organization.Position(startYear, startMonth, endYear, endMonth, title, description));
-        }
-        return positions;
+    private LocalDate readDate(DataInputStream dis) throws IOException {
+        int year = dis.readInt();
+        Month month = Month.valueOf(dis.readUTF());
+        return LocalDate.of(year, month, 1);
     }
 }
