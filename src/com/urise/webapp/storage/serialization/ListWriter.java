@@ -1,4 +1,4 @@
-package com.urise.webapp.customFunctions;
+package com.urise.webapp.storage.serialization;
 
 import java.io.IOException;
 
