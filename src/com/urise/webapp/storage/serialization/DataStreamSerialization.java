@@ -97,15 +97,11 @@ public class DataStreamSerialization implements Serialization {
                         readCollectionWithException(dis, () -> {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
-                            if (url.equals("")) {
-                                url = null;
-                            }
+                            url = url.equals("") ? null : url;
                             ArrayList<Organization.Position> positions = new ArrayList<>();
                             readCollectionWithException(dis, () -> {
                                 String description = dis.readUTF();
-                                if (description.equals("")) {
-                                    description = null;
-                                }
+                                description = description.equals("") ? null : description;
                                 String title = dis.readUTF();
                                 LocalDate startDate = readDate(dis);
                                 LocalDate endDate = readDate(dis);
