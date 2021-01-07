@@ -2,27 +2,25 @@ package com.urise.webapp;
 
 public class DeadLock {
 
-    public static void main(String[] args) {
-        A a = new A();
-        A b = new A();
+    public static void main(String[] args) throws InterruptedException {
         new Thread(() -> {
-            for (int i = 0; i < 1000; i++) {
-                a.execute(b);
+            try {
+                execute();
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
             }
-        }).start();
-
-        for (int i = 0; i < 1000; i++) {
-            b.execute(a);
-        }
-    }
-}
-
-class A {
-    public synchronized void execute(A a) {
-        a.execute2();
+        })
+                .start();
+        execute2();
     }
 
-    public synchronized void execute2() {
-        System.out.println(0);
+    public synchronized static void execute() throws InterruptedException {
+        Thread.sleep(1000);
+        execute2();
+    }
+
+    public synchronized static void execute2() throws InterruptedException {
+        Thread.sleep(1000);
+        execute();
     }
 }
