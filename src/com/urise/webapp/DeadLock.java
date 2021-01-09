@@ -5,30 +5,20 @@ public class DeadLock {
     public static void main(String[] args) {
         DeadLock a = new DeadLock();
         DeadLock b = new DeadLock();
-        new Thread(() -> {
-            try {
-                execute(a, b);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        })
+        new Thread(() -> execute(a, b))
                 .start();
-
-        new Thread(() -> {
-            try {
-                Thread.sleep(100);
-                execute(b, a);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        })
+        new Thread(() -> execute(b, a))
                 .start();
     }
 
-    public static void execute(DeadLock a, DeadLock b) throws InterruptedException {
+    public static void execute(DeadLock a, DeadLock b) {
         synchronized (a) {
             System.out.println(Thread.currentThread().getName() + " a");
-            Thread.sleep(1000);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             synchronized (b) {
                 System.out.println(Thread.currentThread().getName() + " b");
             }
