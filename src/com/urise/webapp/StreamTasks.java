@@ -8,7 +8,6 @@ public class StreamTasks {
     public static void main(String[] args) {
         System.out.println(minValue(new int[]{4, 4, 4, 6, 6, 5, 1, 7, 9, 3}));
         System.out.println(oddOrEven(Arrays.asList(-10, 8, -3, 0, 14, -7, 1, 7, 9, 3)));
-
     }
 
     private static int minValue(int[] values) {
@@ -22,7 +21,7 @@ public class StreamTasks {
         int sum = integers.stream().reduce(0, Integer::sum);
 
         return integers.stream()
-                .filter(sum % 2 == 0 ? a -> a % 2 != 0 : a -> a % 2 == 0)
+                .filter(a -> Math.abs(a % 2) != sum % 2)
                 .collect(Collectors.toList());
     }
 }
