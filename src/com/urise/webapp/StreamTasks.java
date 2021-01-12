@@ -21,7 +21,7 @@ public class StreamTasks {
         int sum = integers.stream().reduce(0, Integer::sum);
 
         return integers.stream()
-                .filter(a -> Math.abs(a % 2) != sum % 2)
+                .filter(a -> Math.abs(a % 2) != Math.abs(sum % 2))
                 .collect(Collectors.toList());
     }
 }
