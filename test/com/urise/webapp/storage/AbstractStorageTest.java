@@ -1,5 +1,6 @@
 package com.urise.webapp.storage;
 
+import com.urise.webapp.Config;
 import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
@@ -7,13 +8,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 import static com.urise.webapp.ResumeTestData.fillResume;
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_DIR = ".\\Storage";
+    protected static final File STORAGE_DIR = Config.get().getStorageDir();
     Storage storage;
     private static final Resume R1 = fillResume("1", "c");
     private static final Resume R2 = fillResume("2", "a");

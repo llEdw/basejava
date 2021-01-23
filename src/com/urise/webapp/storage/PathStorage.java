@@ -6,10 +6,10 @@ import com.urise.webapp.storage.serialization.Serialization;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -19,8 +19,8 @@ public class PathStorage extends AbstractStorage<Path> {
     private Path directory;
     private Serialization serialization;
 
-    protected PathStorage(String dir, Serialization serialization) {
-        directory = Paths.get(dir);
+    protected PathStorage(File dir, Serialization serialization) {
+        directory = dir.toPath();
         Objects.requireNonNull(directory, "directory must not be null");
         if (!Files.isDirectory(directory) || !Files.isWritable(directory)) {
             throw new IllegalArgumentException(dir + " is not directory or is not writable");
