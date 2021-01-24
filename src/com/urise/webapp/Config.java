@@ -1,5 +1,8 @@
 package com.urise.webapp;
 
+import com.urise.webapp.storage.SqlStorage;
+import com.urise.webapp.storage.Storage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,10 +14,10 @@ public class Config {
     private static final Config INSTANCE = new Config();
 
     private Properties props = new Properties();
-    private File storageDir;
-    private String dbUrl,
-            dbUser,
-            dbPassword;
+    private final File storageDir;
+    private final String dbUrl;
+    private final String dbUser;
+    private final String dbPassword;
 
     public static Config get() {
         return INSTANCE;
@@ -36,15 +39,7 @@ public class Config {
         return storageDir;
     }
 
-    public String dbUrl() {
-        return dbUrl;
-    }
-
-    public String dbUser() {
-        return dbUser;
-    }
-
-    public String dbPassword() {
-        return dbPassword;
+    public Storage getSqlStorage() {
+        return new SqlStorage(dbUrl, dbUser, dbPassword);
     }
 }
