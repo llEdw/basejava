@@ -9,13 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class SqlHelper {
-    private static ConnectionFactory connectionFactory;
+    private ConnectionFactory connectionFactory;
 
     public SqlHelper(String dbUrl, String dbUser, String dbPassword) {
         connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
     }
 
-    public static <T> T sqlHelperExecute(String sql, BlockSql<T> blockSql) {
+    public <T> T sqlHelperExecute(String sql, BlockSql<T> blockSql) {
         try (Connection conn = connectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             return blockSql.sqlExecute(ps);
