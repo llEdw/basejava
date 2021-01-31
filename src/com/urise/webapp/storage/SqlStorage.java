@@ -1,13 +1,10 @@
 package com.urise.webapp.storage;
 
-import com.urise.webapp.exception.ExistStorageException;
 import com.urise.webapp.exception.NotExistStorageException;
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.sql.SqlHelper;
 
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,7 +13,7 @@ public class SqlStorage implements Storage {
     private static final Logger LOG = Logger.getLogger(SqlStorage.class.getName());
 
     public SqlStorage(String dbUrl, String dbUser, String dbPassword) {
-        SqlHelper.connectionFactory = () -> DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+        new SqlHelper(dbUrl, dbUser, dbPassword);
     }
 
     @Override
@@ -48,7 +45,6 @@ public class SqlStorage implements Storage {
         SqlHelper.sqlHelperExecute("UPDATE resume SET full_name =? WHERE uuid =?;", ps -> {
             ps.setString(1, resume.getFullName());
             ps.setString(2, r);
-            ps.execute();
             if (ps.executeUpdate() == 0) {
                 throw new NotExistStorageException(r);
             }
@@ -62,13 +58,7 @@ public class SqlStorage implements Storage {
         SqlHelper.sqlHelperExecute("INSERT INTO resume (uuid, full_name) VALUES (?,?)", ps -> {
             ps.setString(1, resume.getUuid());
             ps.setString(2, resume.getFullName());
-            try {
-                ps.execute();
-            } catch (SQLException e) {
-                if (e.getSQLState().equals("23505")) {
-                    throw new ExistStorageException(resume.getUuid());
-                }
-            }
+            ps.execute();
             return null;
         });
     }
@@ -105,7 +95,6 @@ public class SqlStorage implements Storage {
     public int size() {
         return
                 SqlHelper.sqlHelperExecute("SELECT COUNT(*) FROM resume", ps -> {
-                    ps.execute();
                     ResultSet rs = ps.executeQuery();
                     rs.next();
                     return rs.getInt(1);
