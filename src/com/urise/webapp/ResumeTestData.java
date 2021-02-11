@@ -1,17 +1,18 @@
 package com.urise.webapp;
 
+import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 
 public class ResumeTestData {
-   public static Resume fillResume(String uuid, String fullName) {
-       Resume resume = new Resume(uuid, fullName);
+    public static Resume fillResume(String uuid, String fullName) {
+        Resume resume = new Resume(uuid, fullName);
 
-//       resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
-//       resume.addContact(ContactType.SKYPE, "grigory.kislin");
-//       resume.addContact(ContactType.MAIL, "gkislin@yandex.ru");
-//       resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
-//       resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
-//       resume.addContact(ContactType.STATCKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
+        resume.addContact(ContactType.PHONE, "+7(921) 855-0482");
+        resume.addContact(ContactType.SKYPE, "grigory.kislin");
+        resume.addContact(ContactType.MAIL, "gkislin@yandex.ru");
+        resume.addContact(ContactType.LINKEDIN, "https://www.linkedin.com/in/gkislin");
+        resume.addContact(ContactType.GITHUB, "https://github.com/gkislin");
+        resume.addContact(ContactType.STATCKOVERFLOW, "https://stackoverflow.com/users/548473/grigory-kislin");
 
 //       resume.addSection(SectionType.OBJECTIVE, new TextSection
 //           ("Ведущий стажировок и корпоративного обучения по Java Web и Enterprise технологиям"));
@@ -119,6 +120,15 @@ public class ResumeTestData {
 //          new Organization("Заочная физико-техническая школа при МФТИ", "http://www.school.mipt.ru/",
 //                  new Organization.Position(1984, Month.SEPTEMBER, 1987, Month.JUNE,
 //                  "Закончил с отличием", null))));
-       return resume;
-   }
-}
+        return resume;
+    }
+
+        public static Resume fillResume2 (String uuid, String fullName){
+            Resume resume = new Resume(uuid, fullName);
+
+            resume.addContact(ContactType.PHONE, "88005553505");
+            resume.addContact(ContactType.SKYPE, "bulvinkl");
+            resume.addContact(ContactType.MAIL, "igorb@rambler.ru");
+            return resume;
+        }
+    }

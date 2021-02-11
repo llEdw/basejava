@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.urise.webapp.ResumeTestData.fillResume;
+import static com.urise.webapp.ResumeTestData.fillResume2;
 
 public abstract class AbstractStorageTest {
     protected static final File STORAGE_DIR = Config.get().getStorageDir();
@@ -59,7 +60,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void updateFirstElement() {
-        Resume r5 = fillResume(UUID1, "f");
+        Resume r5 = fillResume2(UUID1, "f");
         storage.update(r5);
         Assert.assertEquals(r5, storage.get(UUID1));
         Assert.assertEquals(3, storage.size());
@@ -67,7 +68,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void updateLastElement() {
-        Resume r6 = fillResume(UUID3, "g");
+        Resume r6 = fillResume2(UUID3, "g");
         storage.update(r6);
         Assert.assertEquals(r6, storage.get(UUID3));
         Assert.assertEquals(3, storage.size());
