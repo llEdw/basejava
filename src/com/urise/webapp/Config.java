@@ -39,7 +39,7 @@ public class Config {
         return storageDir;
     }
 
-    public Storage getSqlStorage() {
+    public Storage getSqlStorage() throws ClassNotFoundException {
         return new SqlStorage(dbUrl, dbUser, dbPassword);
     }
 }
