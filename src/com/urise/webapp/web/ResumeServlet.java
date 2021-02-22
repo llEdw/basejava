@@ -1,3 +1,5 @@
+package com.urise.webapp.web;
+
 import com.urise.webapp.model.Resume;
 import com.urise.webapp.storage.ListStorage;
 import com.urise.webapp.storage.Storage;
